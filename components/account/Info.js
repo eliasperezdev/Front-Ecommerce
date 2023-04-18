@@ -1,55 +1,44 @@
 import authContext from "context/auth/authContext"
-import { useContext } from "react"
+import userContext from "context/user/userContext";
+import Link from "next/link";
+import { useContext,useEffect } from "react"
 
 export default function Info() {
+    const UserContext = useContext(userContext)
+    const {getFavorities, getOrders, orders } = UserContext
 
-    const AuthContext = useContext(authContext)
-    const {usuario} = AuthContext
+    useEffect(() => {
+        getOrders()
+    }, [])
 
     return (
         <>
-        <div class="shadow rounded bg-white px-4 pt-6 pb-8">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-medium text-gray-800 text-lg">Información personal</h3>
-                </div>
-                <div class="space-y-1">
-                    <h4 class="text-gray-700 font-medium">{usuario.name + " " + usuario.lastName}</h4>
-                    <p class="text-gray-800">Email: {usuario.email}</p>
-                    <p class="text-gray-800">Telefono: {usuario.phone}</p>
-                    <p class="text-gray-800">DNI: {usuario.dni}</p>
-                </div>
-            </div>
-        <div class="col-span-9 grid grid-cols-3 gap-4">
-
-             <div class="shadow rounded bg-white px-4 pt-6 pb-8">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-medium text-gray-800 text-lg">Dirección trabajo</h3>
-                    <a href="#" class="text-primary">Editar</a>
-                </div>
-                <div class="space-y-1">
-                    <h4 class="text-gray-700 font-medium">John Doe</h4>
-                    <p class="text-gray-800">Medan, North Sumatera</p>
-                    <p class="text-gray-800">20371</p>
-                    <p class="text-gray-800">0811 8877 988</p>
-                </div>
-            </div>
-
-            <div class="shadow rounded bg-white px-4 pt-6 pb-8">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-medium text-gray-800 text-lg">Dirección caa</h3>
-                    <a href="#" class="text-primary">Editar</a>
-                </div>
-                <div class="space-y-1">
-                    <h4 class="text-gray-700 font-medium">John Doe</h4>
-            <p></p>
-                    <p class="text-gray-800">Medan, North Sumatera</p>
-                    <p class="text-gray-800">20317</p>
-                    <p class="text-gray-800">0811 8877 988</p>
+            <div className="container mt-10">
+                <h1 className="mb-10 text-center text-2xl font-bold">Mis ordenes</h1>
+                <div className="grid grid-cols-2  md:grid-cols-3  gap-4" >
+                {orders.length === 0 ? "no hay ordees" : orders.map(order=>(
+                    <div key={order.id} className="order-4 border-red-200 border-t-red-500">
+                        <div class="flex justify-center">
+                            <div
+                                className="block max-w-sm rounded-lg bg-white p-6 shadow-lg">
+                                <h5
+                                className="mb-2 text-xl font-medium leading-tight text-neutral-800">
+                                N° de orden: {order.id}
+                                </h5>
+                                <p className="mb-4 text-base text-neutral-600">
+                                    {order.dateTime}
+                                </p>
+                                <Link
+                                    href={`/account/order/${order.id}`}
+                                    className="inline-block rounded bg-primary px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]">
+                                    Ver orden
+                                </Link>
+                            </div>
+                            </div>
+                    </div>
+                ))}
                 </div>
             </div>
-
-        </div>
         </>
     )
   }
-  

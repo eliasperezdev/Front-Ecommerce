@@ -15,9 +15,17 @@ import {
     GET_CATEGORY,
     GET_PRODUCT,
     EDIT_PRODUCT,
-    GET_RECOMMENDS
+    GET_RECOMMENDS,
+    GET_SEARCH,
+    SET_PRODUCTS,
+    SET_CURRENT_PAGE,
+    SET_TOTAL_PAGES,
+    GET_PRODUCTS_ADMIN
 } from '../../types';
 import clientAxios from "../../config/axios";
+import Swal from "sweetalert2";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const productState = ({children}) => {
 
@@ -25,6 +33,7 @@ const productState = ({children}) => {
         products: [],
         product: {},
         recommends: [],
+        search: [],
         
         //Category
         categories: [],
@@ -33,9 +42,13 @@ const productState = ({children}) => {
         editorial: {},
     }
 
-        // Definir el reducer
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [ state, dispatch ] = useReducer(productReducer, initialState);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const router = useRouter()
+    
+    // Definir el reducer
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [ state, dispatch ] = useReducer(productReducer, initialState);
+    
 
         const getProduct = async (id) => {
             try {
@@ -45,7 +58,26 @@ const productState = ({children}) => {
                     payload: respuesta.data
                 })
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
+                
+            }
+        }
+
+        const getSearch = async (text) => {
+            try {
+                const respuesta = await clientAxios.get(`/api/products/search?text=${text}`)
+                dispatch({
+                    type: GET_SEARCH,
+                    payload: respuesta.data.products
+                })
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
                 
             }
         }
@@ -58,7 +90,10 @@ const productState = ({children}) => {
                     payload: respuesta.data
                 })
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
                 
             }
         }
@@ -71,7 +106,10 @@ const productState = ({children}) => {
                     payload: respuesta.data
                 })
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
                 
             }
         }
@@ -79,12 +117,16 @@ const productState = ({children}) => {
         const getCategories = async () => {
             try {
                 const respuesta = await clientAxios.get('/api/categories')
+                console.log(respuesta);
                 dispatch({
                     type: GET_CATEGORIES,
                     payload: respuesta.data.categories
                 })
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
                 
             }
         }
@@ -97,7 +139,10 @@ const productState = ({children}) => {
                     payload: respuesta.data.editorials
                 })
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
                 
             }
         }
@@ -115,25 +160,56 @@ const productState = ({children}) => {
                 const respuesta = await clientAxios.post('/api/editorials', editorial, config)
                 dispatch({
                     type: UP_EDITORIAL,
-                    payload: respuesta.data
+                    payload: respuesta
                 })
+                router.push('/admin/editorials')
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
             }
         }
 
-        const getProducts = async () => {
+        const getProducts = async (editorialCheck, categoryCheck, order, min, max) => {
             try {
-                const respuesta = await clientAxios.get('/api/products')
+                const respuesta = await clientAxios.get(`/api/products/${editorialCheck}/${categoryCheck}/${order}/${min}/${max}`)
                 dispatch({
                     type: GET_PRODUCTS,
+                    payload: respuesta.data.response.products
+                })
+            } catch (error) {
+                toast.error('No hay productos');
+                
+            }
+        }
+
+        const getProductsAdmin = async (editorialCheck, categoryCheck, order, min, max) => {
+            const token = localStorage.getItem('token')
+            if(!token) return
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            try {
+                const respuesta = await clientAxios.get(`/api/products/`, config)
+                console.log(respuesta);
+                dispatch({
+                    type: GET_PRODUCTS_ADMIN,
                     payload: respuesta.data.products
                 })
             } catch (error) {
                 console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error,
+                  })
                 
             }
         }
+
 
         const getRecommends = async () => {
             try {
@@ -143,7 +219,10 @@ const productState = ({children}) => {
                     payload: respuesta.data.products
                 })
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
                 
             }
         }
@@ -161,15 +240,20 @@ const productState = ({children}) => {
             }
 
             try {
-                console.log(product);
                 const respuesta = await clientAxios.post('/api/products', product, config)
+                console.log(respuesta);
                 
                 dispatch({
                     type: UP_PRODUCT,
                     payload: respuesta.data
                 })
+                //router.push('/admin/products')
             } catch (error) {
-                console.log(error.response);
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
             }
         }
 
@@ -192,8 +276,14 @@ const productState = ({children}) => {
                     type: UP_CATEGORY,
                     payload: respuesta.data
                 })
+                router.push('/admin/category')
+
             } catch (error) {
-                console.log(error.response);
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
             }
         }
 
@@ -214,7 +304,11 @@ const productState = ({children}) => {
                     payload: respuesta.data
                 })
             } catch (error) {
-                console.log(error.response);
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
             }
         }
 
@@ -234,9 +328,11 @@ const productState = ({children}) => {
                     type: DELETE_EDITORIAL,
                     payload: id
                 })
-                console.log(respuesta);
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
             }
         }
 
@@ -256,9 +352,11 @@ const productState = ({children}) => {
                     type: DELETE_CATEGORY,
                     payload: id
                 })
-                console.log(respuesta);
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
             }
         }
 
@@ -278,9 +376,11 @@ const productState = ({children}) => {
                     type: DELETE_PRODUCT,
                     payload: id
                 })
-                console.log(respuesta);
             } catch (error) {
-                console.log(error.response);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response,
+                  })
             }
         }
 
@@ -294,6 +394,10 @@ const productState = ({children}) => {
                 product: state.product,
                 category: state.category,
                 editorial: state.editorial,
+                search: state.search,
+                totalPages: state.totalPages,
+                currentPage: state.currentPage,
+                pageSize: state.pageSize,
                 getCategories,
                 getEditorials,
                 upEditorial,
@@ -308,7 +412,9 @@ const productState = ({children}) => {
                 deleteEditorial,
                 editProduct,
                 deleteProduct,
-                getRecommends
+                getRecommends,
+                getSearch,
+                getProductsAdmin
             }}
         >
             {children}

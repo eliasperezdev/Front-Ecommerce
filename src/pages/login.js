@@ -11,14 +11,13 @@ export default function Home() {
 
     const AuthContext = useContext(authContext)
     const { iniciarSesion, mensaje, autenticado } = AuthContext
-
     const router = useRouter()
 
     useEffect(() => {
         if(autenticado) {
             router.push('/')
         }
-    }, [autenticado, router])
+    }, [autenticado])
 
     const formik = useFormik({
         initialValues: {
@@ -33,8 +32,12 @@ export default function Home() {
                         .required('El password no puede ir vacio')
         }),
         onSubmit: valores => {
-            iniciarSesion(valores)
-            router.push("/")
+            try {
+                iniciarSesion(valores)
+                
+            } catch (error) {
+                console.log("No login");
+            }
         }
     });
     return (

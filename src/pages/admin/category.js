@@ -88,15 +88,9 @@ export default function Category() {
                         : <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Inactivo</span>
                       }
                     </td>
-                    <td className="px-6 py-4">
-                        <button type="button" className="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2">Editar</button>
-                        <button 
-                            type="button" 
-                            className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                            onClick={()=> onClickDelete(category.id)}
-                        >Eliminar</button>
-
-
+                    <td className="">
+                        
+                      {/*<button type="button" className="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2">Editar</button> */}
                     </td>
                 </tr>
                 ))}

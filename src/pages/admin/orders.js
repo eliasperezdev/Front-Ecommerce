@@ -1,32 +1,104 @@
 import Layout from "componentsAdmin/layout/Layout";
-import TableOrders from "componentsAdmin/Orders/TableOrders";
+import clientContext from "context/clients/clientContext";
+import Link from "next/link";
+import { useContext, useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 
 export default function Dashboard() {
+
+  const ClientContext = useContext(clientContext)
+  const {getOrders, orders} = ClientContext
+
+    useEffect(() => {
+        getOrders()
+    }, [])
+          // Estado para el número de página actual
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Cantidad de productos por página
+  const productsPerPage = 10;
+
+  // Calcular el índice de inicio y fin de los productos para la página actual
+  const startIndex = currentPage * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+
+    // Función para manejar el cambio de página
+    const handlePageChange = ({ selected }) => {
+        setCurrentPage(selected);
+      };
+
     return (
       <Layout>
         <div className="flex justify-between pb-5">
-          <div className="flex">
             <h1 className="font-bold text-xl">Ordenes</h1>
-            <select id="small" class="block p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  ml-10">
+            {/*}
+          <div className="flex">
+            <select id="small" className="block p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500  ml-10">
               <option selected>Filtrar</option>
               <option value="US">Hoy</option>
               <option value="CA">Activos</option>
               <option value="FR">Finalizados</option>
               <option value="DE">Cancelados</option>
             </select>
-          </div>
-            <form>   
-              <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
-              <div class="relative">
-                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                  </div>
-                  <input type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search Mockups, Logos..." required/>
-                  <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
-              </div>
-          </form>
+    </div> */}
         </div>
-        <TableOrders/>
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 ">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                <tr>
+                    <th scope="col" className="px-6 py-3">
+                        Comprador
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Fecha
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        # Order
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Estado
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            
+                {orders.length === 0 ? "No hay ordenes" : <tbody>
+                    {orders.slice(startIndex, endIndex).map(order=> (
+                        <tr key={order.id} className="bg-white border-b ">
+                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                {order.User.name + " " + order.User.lastName}
+                            </th>
+                            <td className="px-6 py-4">
+                                {order.dateTime}
+                            </td>
+                            <td className="px-6 py-4">
+                                {order.id}
+                            </td>
+                            <td className="px-6 py-4">
+                                {order.status === "No pagado" ? <span class="bg-green-100 text-gray-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">No pagado</span>: order.status === "Aprobado" ? <span class="bg-red-green text-green-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">En proceso</span> : order.status === "Empaquetado" ? <span class="bg-yellow-100 text-yellow-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">Empaquetado</span> : <span class="bg-indigo-100 text-indigo-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">Entregado</span>}
+                            </td>
+                            <td className="px-6 py-4">
+                                <Link href={`/admin/orders/${order.id}`} className="font-medium text-blue-600  hover:underline">Ver</Link>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+                }
+        </table>
+        <ReactPaginate
+        pageCount={Math.ceil(orders.length / productsPerPage)}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName="flex justify-center mt-4"
+        pageClassName="bg-red-700 px-2 border-2 border-yellow-600"
+        activeClassName="bg-blue-800 text-white"
+        previousClassName="bg-yellow-700 border-2 border-red-800"
+        nextClassName="bg-yellow-700 border-2 border-red-800"
+      />
+    </div>
             
       </Layout>
     )

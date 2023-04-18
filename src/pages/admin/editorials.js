@@ -28,8 +28,8 @@ export default function Dashboard() {
             text: "Esta acción es irreversible",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
+            confirmButtonText: 'Si, Eliminar',
+            cancelButtonText: 'No, Cancelar',
             reverseButtons: true
           }).then((result) => {
             if (result.isConfirmed) {
@@ -69,9 +69,6 @@ export default function Dashboard() {
                         Nombre
                     </th>
                     <th scope="col" className="px-6 py-3">
-                        Activo
-                    </th>
-                    <th scope="col" className="px-6 py-3">
                         Acciones
                     </th>
                 </tr>
@@ -79,21 +76,11 @@ export default function Dashboard() {
             <tbody>
                 {editorials?.map(product=> (
                     <tr key={product.id} className="bg-white border-b hover:bg-gray-50">
-                    <td className="px-6 py-4 font-semibold text-gray-900">
+                    <td className="px-6 font-semibold text-gray-900">
                         {product.name}
                     </td>
-                    <td className="w-32 p-4">
-                        <input type={"checkbox"} />
-                    </td>
-                    <td className="px-6 py-4">
+                    <td className="m-auto">
                         <button type="button" className="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2">Editar</button>
-                        <button 
-                            type="button" 
-                            className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                            onClick={()=> onClickDelete(product.id)}
-                        >Eliminar</button>
-
-
                     </td>
                 </tr>
                 ))}

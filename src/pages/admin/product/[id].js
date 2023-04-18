@@ -17,7 +17,6 @@ export default function Dashboard() {
   useEffect(() => {
     getCategories()
     getEditorials()
-    console.log(product);
   }, [])
 
 
@@ -200,7 +199,7 @@ export default function Dashboard() {
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                       {...formik.getFieldProps('condition')}
                     >
-                        <option value={""}>Seleccione</option>
+                        <option >Seleccione</option>
                         <option value={1}>Activo</option>
                         <option value={0}>Inactivo</option>
                     </select>

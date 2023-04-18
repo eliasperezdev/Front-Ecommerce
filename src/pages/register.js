@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import authContext from "../../context/auth/authContext";
+import Error from "components/Error";
 
 export default function Home() {
 
@@ -38,7 +39,7 @@ export default function Home() {
         }),
         onSubmit: valores => {
             registrarUsuarios(valores)
-            router.push("/")
+
         }
     });
 
@@ -60,6 +61,9 @@ export default function Home() {
                             value={formik.values.name}
                             onChange={formik.handleChange}
                             />
+                            { formik.touched.name && formik.errors.name ? (
+                                <Error message={formik.errors.name} />
+                            ) : null }
                     </div>
                     <div>
                         <label for="lastName" className="text-gray-600 mb-2 block">Apellido</label>
@@ -69,6 +73,9 @@ export default function Home() {
                             value={formik.values.lastName}
                             onChange={formik.handleChange}
                             />
+                            { formik.touched.lastName && formik.errors.lastName ? (
+                                <Error message={formik.errors.lastName} />
+                            ) : null }
                     </div>
                     <div>
                         <label for="phone" className="text-gray-600 mb-2 block">Telefono</label>
@@ -78,6 +85,9 @@ export default function Home() {
                             value={formik.values.phone}
                             onChange={formik.handleChange}
                             />
+                            { formik.touched.phone && formik.errors.phone ? (
+                                <Error message={formik.errors.phone} />
+                            ) : null }
                     </div>
                     <div>
                         <label for="dni" className="text-gray-600 mb-2 block">DNI</label>
@@ -87,6 +97,9 @@ export default function Home() {
                             value={formik.values.dni}
                             onChange={formik.handleChange}
                             />
+                            { formik.touched.dni && formik.errors.dni ? (
+                                <Error message={formik.errors.dni} />
+                            ) : null }
                     </div>
                     <div>
                         <label for="email" className="text-gray-600 mb-2 block">Email</label>
@@ -96,6 +109,9 @@ export default function Home() {
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             />
+                            { formik.touched.email && formik.errors.email ? (
+                                <Error message={formik.errors.email} />
+                            ) : null }
                     </div>
                     <div>
                         <label for="password" className="text-gray-600 mb-2 block">Contraseña</label>
@@ -105,6 +121,10 @@ export default function Home() {
                             value={formik.values.password}
                             onChange={formik.handleChange}
                         />
+
+                        { formik.touched.password && formik.errors.password ? (
+                                <Error message={formik.errors.password} />
+                            ) : null }
                     </div>
                 </div>
                 <div className="mt-4">

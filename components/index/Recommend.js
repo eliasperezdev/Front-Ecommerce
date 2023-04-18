@@ -16,7 +16,7 @@ export default function Recommend() {
     return (
     <div className="container pb-16">
         <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">Recomendados</h2>
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid lg:grid-cols-4 grid-cols-2 gap-6">
             {recommends?.map(product => (
                 <Product key={product.id} product={product} />
             ))}

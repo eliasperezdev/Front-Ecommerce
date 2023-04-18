@@ -5,7 +5,8 @@ import {
     LOGIN_EXITOSO,
     LOGIN_ERROR,
     USUARIO_AUTENTICADO,
-    CERRAR_SESION
+    CERRAR_SESION,
+    GET_ORDERS
 } from '../../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -42,9 +43,14 @@ export default (state, action) => {
                 ...state,
                 usuario: null, 
                 token: null,
-                autenticado: null,
+                autenticado: false,
 
             }
+        case GET_ORDERS:
+            return {
+                ...state,
+                orders: action.payload
+            }  
         default:
             return state;
     }

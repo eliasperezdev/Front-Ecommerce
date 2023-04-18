@@ -7,10 +7,10 @@ import productContext from "../../../context/product/productContext";
 export default function Dashboard() {
 
   const ProductContext = useContext(productContext)
-  const {getProducts, products} = ProductContext
+  const {getProductsAdmin, products} = ProductContext
 
     useEffect(() => {
-      getProducts()
+      getProductsAdmin()
     }, [])
 
     return (

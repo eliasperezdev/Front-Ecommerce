@@ -25,6 +25,7 @@ export const UP_PRODUCT = 'UP_PRODUCT'
 export const EDIT_PRODUCT = 'EDIT_PRODUCT'
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 export const GET_RECOMMENDS = 'GET_RECOMMENDS'
+export const GET_SEARCH = 'GET_SEARCH'
 
 export const GET_CLIENTS = 'GET_CLIENTS'
 export const GET_USERS = 'GET_USERS'
@@ -35,3 +36,20 @@ export const REMOVE_ONE_FROM_CART = 'REMOVE_ONE_FROM_CART'
 export const REMOVE_ALL_FROM_CART = 'REMOVE_ALL_FROM_CART'
 export const CLEAR_CART = 'CLEAR_CART'
 export const TOTAL_PRICE = 'TOTAL_PRICE'
+export const GET_ORDERS = "GET_ORDERS"
+
+export const ADD_ADDRESS = 'ADD_ADDRESS'
+export const GET_ADDRESS = "GET_ADDRESS"
+export const GET_FAVORITIES = "GET_FAVORITIES"
+export const ADD_FAVORITE = "ADD_FAVORITE"
+export const DELETE_ADDRESS = "DELETE_ADDRESS"
+export const DELETE_FAVORITE = "DELETE_FAVORITE"
+
+export const SHOW_ALERT = "SHOW_ALERT"
+export const HIDE_ALERT = "HIDE_ALERT"
+export const SET_PRODUCTS = "SET_PRODUCTS"
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE"   
+export const SET_TOTAL_PAGES = "SET_TOTAL_PAGES"
+export const GET_PRODUCTS_ADMIN = "GET_PRODUCTS_ADMIN"
+export const UPDATE_STATUS = "UPDATE_STATUS"
+export const SET_CART = "SET_CART"

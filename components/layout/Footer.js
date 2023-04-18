@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-    <footer className="bg-white pt-16 pb-12 border-t border-gray-100">
+    <footer className="bg-gradient-to-b from-red-600 to-red-900 pt-16 pb-12 border-t border-gray-100">
         <div className="container grid grid-cols-3">
             <div className="col-span-1 space-y-8">
                 <h1 className="text-2xl">I Sekai</h1>

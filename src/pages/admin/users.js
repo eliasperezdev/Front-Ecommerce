@@ -1,21 +1,37 @@
 import Layout from "componentsAdmin/layout/Layout";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import clientContext from "../../../context/clients/clientContext";
+import Modal from "componentsAdmin/Clients/ModalSeller";
+import authContext from "context/auth/authContext";
 
 export default function Dashboard() {
 
   const ClientContext = useContext(clientContext)
   const {getUsers, users} = ClientContext
 
+  const AuthContext = useContext(authContext)
+  const {usuario} = AuthContext
+
     useEffect(() => {
         getUsers()
     }, [])
+    console.log(users);
+
+    const [modal, setModal] = useState(false)
+
+    const clickModal = ( ) => {
+        setModal(!modal)
+    }
 
     return (
       <Layout>
-        <div className="flex justify-between pb-5">
+        <div className="flex justify-between">
             <h1 className="font-bold text-xl">Vendedores</h1>
+            {usuario?.RoleId === 1 ? <button onClick={clickModal}>
+              <button type="button" className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Agregar vendedor</button>
+            </button> : null}
         </div>
+        {modal && <Modal modal={modal} setModal={setModal}/>}
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500">
@@ -58,38 +74,6 @@ export default function Dashboard() {
                 }
             </tbody>
         </table>
-        <nav className="flex items-center justify-between pt-4" aria-label="Table navigation">
-            <span className="text-sm font-normal text-gray-500">Showing <span className="font-semibold text-gray-900">1-10</span> of <span className="font-semibold text-gray-900">1000</span></span>
-            <ul className="inline-flex items-center -space-x-px">
-                <li>
-                    <a href="#" className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
-                        <span className="sr-only">Previous</span>
-                        <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-                </li>
-                <li>
-                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-                </li>
-                <li>
-                    <a href="#" aria-current="page" className="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700">3</a>
-                </li>
-                <li>
-                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">...</a>
-                </li>
-                <li>
-                    <a href="#" className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
-                </li>
-                <li>
-                    <a href="#" className="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-50 hover:text-gray-700 dark:hover:bg-gray-700 dark:hover:text-white">
-                        <span className="sr-only">Next</span>
-                        <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                    </a>
-                </li>
-            </ul>
-        </nav>
     </div>
       </Layout>
     )

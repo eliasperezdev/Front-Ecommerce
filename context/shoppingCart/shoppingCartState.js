@@ -6,13 +6,15 @@ import {
     ADD_TO_CART,
     REMOVE_ALL_FROM_CART,
     REMOVE_ONE_FROM_CART,
-    CLEAR_CART,
+    SET_CART,
     TOTAL_PRICE
 } from '../../types';
 import clientAxios from "../../config/axios";
+import {toast,  Toaster } from 'react-hot-toast';
 
 const shoppingCartState = ({children}) => {
-
+    
+    
     const initialState={
         shoppingCart: [],
         total: 0,
@@ -23,10 +25,17 @@ const shoppingCartState = ({children}) => {
         const [ state, dispatch ] = useReducer(shoppingCartReducer, initialState);
 
         const addToCart =async product => {
-                 dispatch({
+            const respuesta = await clientAxios.get(`/api/products/${product.id}`)
+            let itemInCart = state.shoppingCart.find(item => item.id === product.id)
+            if(!itemInCart || itemInCart.quantify < respuesta.data.stock){
+                    dispatch({
                     type: ADD_TO_CART,
                     payload: product
                 })
+            toast.success('Se ha agregado al carrito');
+            } else {
+                toast.error('No hay suficiente stock');
+            }
             
         }
 
@@ -37,6 +46,7 @@ const shoppingCartState = ({children}) => {
                     payload: product
                 })
             } else {
+                console.log("remove");
                 dispatch({
                     type: REMOVE_ONE_FROM_CART,
                     payload: product
@@ -44,9 +54,9 @@ const shoppingCartState = ({children}) => {
             }
         }
 
-        const clearCart = () => {
+        const setCart = () => {
             dispatch({
-                type: CLEAR_CART
+                type: SET_CART
             })
         }
 
@@ -57,16 +67,9 @@ const shoppingCartState = ({children}) => {
         }
 
         const upOrder =async order => {
-            const token = localStorage.getItem('token')
-            if(!token) return
-            const config = {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
-            }
             try {
                 const respuesta = await clientAxios.post('/api/orders', order)
+                window.location.href = respuesta.data.link
             } catch (error) {
                 console.log(error.response);
             }
@@ -80,7 +83,7 @@ const shoppingCartState = ({children}) => {
                 total: state.total,
                 addToCart,
                 delFromCart,
-                clearCart,
+                setCart,
                 totalPrice,
                 upOrder
             }}

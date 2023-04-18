@@ -12,12 +12,21 @@ import {
     GET_CATEGORY,
     GET_PRODUCT,
     EDIT_PRODUCT,
-    GET_RECOMMENDS
+    GET_RECOMMENDS,
+    GET_SEARCH,
+    SET_PRODUCTS,
+    SET_CURRENT_PAGE,
+    SET_TOTAL_PAGES,
+    GET_PRODUCTS_ADMIN
 } from '../../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state, action) => {
     switch(action.type) {
+        case 'SET_CURRENT_PAGE':
+            return { ...state, currentPage: action.payload.currentPage };
+        case 'SET_TOTAL_PAGES':
+            return { ...state, totalPages: action.payload };
         case GET_CATEGORY:
             return {
                 ...state,
@@ -47,6 +56,16 @@ export default (state, action) => {
             return {
                 ...state,
                 products: action.payload
+            } 
+        case GET_PRODUCTS_ADMIN:
+            return {
+                ...state,
+                products: action.payload
+            } 
+        case GET_SEARCH:
+            return {
+                ...state,
+                search: action.payload
             }   
         case GET_RECOMMENDS:
             return {

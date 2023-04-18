@@ -51,9 +51,11 @@ export default function Dashboard() {
         .required('La categoria es requerido'),
     }),
     onSubmit: valores => {
+        if(selectedFile === null) {
+          return
+        }
         valores.file = selectedFile
         upProduct(valores)
-        //router.push('/admin/products')
     }
 });
 
@@ -191,14 +193,14 @@ export default function Dashboard() {
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="grid md:grid-cols-2 md:gap-6">
                <div className="relative z-0 w-full mb-6 group">
-                    <label for="price" className="block mb-2 text-xl font-medium text-gray-900">Condición</label>
+                    <label for="condition" className="block mb-2 text-xl font-medium text-gray-900">Condición</label>
                     <select 
                       id="condition" 
                       name="condition" 
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                       {...formik.getFieldProps('condition')}
                     >
-                        <option value={""}>Seleccione</option>
+                        <option>Seleccione</option>
                         <option value={1}>Activo</option>
                         <option value={0}>Inactivo</option>
                     </select>

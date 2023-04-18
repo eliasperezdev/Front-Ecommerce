@@ -9,10 +9,14 @@ import {
     LOGIN_EXITOSO,
     LOGIN_ERROR,
     USUARIO_AUTENTICADO,
-    CERRAR_SESION
+    CERRAR_SESION,
+    GET_ORDERS,
+    GET_ADDRESS
 } from '../../types';
 import clientAxios from "../../config/axios";
 import tokenAuth from "../../config/tokenAuth";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const AuthState = ({children}) => {
 
@@ -21,42 +25,69 @@ const AuthState = ({children}) => {
         autenticado: null,
         usuario: null,
         mensaje: null,
-        cargando: null
+        cargando: null,
+        orders: null
     }
 
         // Definir el reducer
         const [ state, dispatch ] = useReducer(authReducer, initialState);
 
-        /**
-         * 
-         * @param {*} nombre 
-         */
+        const router = useRouter()
 
+        const getOrders =async () => {
+            const token = localStorage.getItem('token')
+            if(!token) return
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            try {
+                const respuesta = await clientAxios.get(`/api/orders/${state.usuario.id}`, config)
+                dispatch({
+                    type: GET_ORDERS,
+                    payload: respuesta.data.orders
+                })
+            } catch (error) {
+                console.log(error.response);
+            }
+        }
+
+        const getAddress =async () => {
+            const token = localStorage.getItem('token')
+            if(!token) return
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            try {
+                const respuesta = await clientAxios.get(`/api/address/${state.usuario.id}`, config)
+                dispatch({
+                    type: GET_ADDRESS,
+                    payload: orders
+                })
+                
+            } catch (error) {
+                console.log(error.response);
+            }
+        }
 
         //Registrar usuarios
         const registrarUsuarios =async datos => {
             try {
-                console.log(datos);
                 const respuesta = await clientAxios.post('/api/users', datos)
                 dispatch({
                     type: REGISTRO_EXITOSO,
                     payload: respuesta.data
                 })
-
+                router.push("/")
 
             } catch (error) {
-                console.log(error.response.data.msg);
-                dispatch({
-                    type: REGISTRO_ERROR,
-                    payload: error.response.data
-                })
+                toast.error(error.response.data);
             }
-            //Limpiar alerta
-            setTimeout(() => {
-                dispatch({
-                    type: OCULTAR_ALERTA
-                })  
-            }, 3000);
         }
 
         //Autenticar usuarios
@@ -64,34 +95,32 @@ const AuthState = ({children}) => {
             try {
                 console.log(datos);
                 const respuesta = await clientAxios.post('/api/login', datos)
-                console.log(respuesta.data.token);
                 dispatch({
                     type: LOGIN_EXITOSO,
                     payload: respuesta.data.message.token
                 })
+                router.push("/")
             } catch (error) {
-                console.log(error.response);
+                toast.error(error.response.data);
                 dispatch({
                     type: LOGIN_ERROR,
                     payload: error.response
                 })
             }
-            //Limpiar alerta
-            setTimeout(() => {
-            dispatch({
-                type: OCULTAR_ALERTA
-            })  
-        }, 3000);
         }
 
         //Retornar usuario autenticado
         const usuarioAutenticado = async () => {
             const token = localStorage.getItem('token')
-            if(token) {
-                tokenAuth(token)
+            if(!token) return
+            const config = {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: `Bearer ${token}`
+                }
             }
             try {
-                const  respuesta = await clientAxios.get('/api/login')
+                const  respuesta = await clientAxios.get('/api/login', config)
                 if(respuesta.data) {
                     dispatch({
                         type: USUARIO_AUTENTICADO,
@@ -108,8 +137,10 @@ const AuthState = ({children}) => {
 
 
         //Cerrar sesion
-        const cerrarSesion=()=> {
-            
+        const logout=()=> {
+            dispatch({
+                type: CERRAR_SESION
+            })
         }
 
 
@@ -121,10 +152,12 @@ const AuthState = ({children}) => {
                 usuario: state.usuario,
                 mensaje: state.mensaje,
                 cargando: state.cargando,
+                orders: state.orders,
                 usuarioAutenticado,
                 registrarUsuarios,
                 iniciarSesion,
-                cerrarSesion
+                logout,
+                getOrders
             }}
         >
             {children}

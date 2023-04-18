@@ -30,9 +30,11 @@ export default function NewCategory() {
           .required('La descripción es requerido')
     }),
     onSubmit: valores => {
+        if(selectedFile===null) {
+          return
+        }
         valores.file = selectedFile
         upCategory(valores);
-        router.push('/admin/category')
     }
 });
 
