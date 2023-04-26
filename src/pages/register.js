@@ -27,7 +27,9 @@ export default function Home() {
                         .email('El email no es válido')
                         .required('El Email es Obligatorio'),
             password: Yup.string()
-                        .required('El password no puede ir vacio'),
+                        .min(8, 'La contraseña debe tener al menos 8 caracteres')
+                        .matches(/[A-Z]/, 'La contraseña debe tener al menos una letra mayúscula')
+                        .required('La contraseña es requerida'),
             name: Yup.string()
                     .required('El nombre es requerido'),
             lastName: Yup.string()
@@ -36,6 +38,7 @@ export default function Home() {
                     .required('El telefono es requerido'),
             dni: Yup.string()
                     .required('El DNI es requerido')
+                    .max(8, 'El DNI no puede tener más de 8 caracteres')
         }),
         onSubmit: valores => {
             registrarUsuarios(valores)
@@ -95,6 +98,7 @@ export default function Home() {
                             className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                             placeholder="Tu DNI"
                             value={formik.values.dni}
+                            maxLength={8}
                             onChange={formik.handleChange}
                             />
                             { formik.touched.dni && formik.errors.dni ? (
@@ -117,7 +121,7 @@ export default function Home() {
                         <label for="password" className="text-gray-600 mb-2 block">Contraseña</label>
                         <input type="password" name="password" id="password"
                             className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                            placeholder="*******"
+                            placeholder="La contraseña debe tener al menos una letra mayúscula"
                             value={formik.values.password}
                             onChange={formik.handleChange}
                         />

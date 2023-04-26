@@ -29,7 +29,9 @@ export default function Home() {
                         .email('El email no es válido')
                         .required('El Email es Obligatorio'),
             password: Yup.string()
-                        .required('El password no puede ir vacio')
+                        //.min(8, 'La contraseña debe tener al menos 8 caracteres')
+                        //.matches(/[A-Z]/, 'La contraseña debe tener al menos una letra mayúscula')
+                        .required('La contraseña es requerida'),
         }),
         onSubmit: valores => {
             try {
@@ -45,7 +47,7 @@ export default function Home() {
         <Layout>
         <div className="contain py-16">
             <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
-                <h2 className="text-2xl uppercase font-medium mb-1">Login</h2>
+                <h2 className="text-2xl uppercase font-medium mb-1">Iniciar sesión</h2>
                 <p className="text-gray-600 mb-6 text-sm">
                     Bienvenido de nuevo
                 </p>
@@ -58,7 +60,6 @@ export default function Home() {
                                 name="email" 
                                 id="email"
                                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                                placeholder="tu.correo@domain.com"
                                 value={formik.values.email}
                                 onChange={formik.handleChange}
                               />
@@ -73,7 +74,6 @@ export default function Home() {
                                 name="password" 
                                 id="password"
                                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                                placeholder="*******"
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
                                 />
@@ -81,9 +81,6 @@ export default function Home() {
                             <Error message={formik.errors.password} />
                           ) : null }
                         </div>
-                    </div>
-                    <div className="flex items-center justify-between mt-6">
-                        <a href="#" className="text-primary">Recuperar contraseña</a>
                     </div>
                     <div className="mt-4">
                         <button type="submit"

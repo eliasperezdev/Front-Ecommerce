@@ -97,7 +97,7 @@ const Sidebar = ({isMenuOpen}) => {
               className="flex items-center px-4 py-2 transition-colors font-semibold duration-300 hover:bg-red-900 gap-2"
             >
               <MdCategory />
-              <span>Categorias</span>
+              <span>Categorías</span>
             </Link>
           </li>
                     <li>

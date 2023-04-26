@@ -17,7 +17,8 @@ import {
     SET_PRODUCTS,
     SET_CURRENT_PAGE,
     SET_TOTAL_PAGES,
-    GET_PRODUCTS_ADMIN
+    GET_PRODUCTS_ADMIN,
+    EDIT_CATEGORY
 } from '../../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -91,6 +92,11 @@ export default (state, action) => {
             return {
                 ...state,
                 products: state.products.map(product => product.id === action.payload.id ? action.payload : product)
+            } 
+        case EDIT_CATEGORY:
+            return {
+                ...state,
+                categories: state.categories.map(category => category.id === action.payload.id ? action.payload : category)
             } 
         case DELETE_EDITORIAL:
             return {

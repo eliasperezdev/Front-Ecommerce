@@ -70,8 +70,8 @@ export default function HowToBuy() {
                 <p className="text-gray-700">{total}</p>
                 </div>
                 <div className="flex justify-between">
-                <p className="text-gray-700">Envio</p>
-                <p className="text-gray-700">0</p>
+                <p className="text-gray-700">Acordar con el vendedor</p>
+                <p className="text-gray-700"></p>
                 </div>
                 <hr className="my-4" />
                 <div className="flex justify-between">

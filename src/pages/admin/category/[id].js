@@ -3,25 +3,23 @@ import Layout from "componentsAdmin/layout/Layout";
 import { useFormik, setFieldValue } from "formik";
 import * as Yup from 'yup';
 import { useContext, useEffect, useState } from "react";
-import productContext from "../../../context/product/productContext";
-import { useRouter } from "next/router";
+import productContext from "context/product/productContext";
+import clientAxios from "config/axios";
 
-export default function NewCategory() {
-
-  const router = useRouter()
+export default function NewCategory({category}) {
 
   const ProductContext = useContext(productContext)
-  const {upCategory} = ProductContext
+  const {editCategory} = ProductContext
 
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedFile, setSelectedFile] = useState('')
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const formik = useFormik({
     initialValues: {
-        name: '',
-        description: '',
-        condition: 1,
-        image: ""
+        id: category.id,
+        name: category.name,
+        description: category.description,
+        condition: category.condition,
     },
     validationSchema: Yup.object({
         name: Yup.string()
@@ -32,11 +30,8 @@ export default function NewCategory() {
         .required('La condición es requerido'),
     }),
     onSubmit: valores => {
-        if(selectedFile===null) {
-          return
-        }
         valores.file = selectedFile
-        upCategory(valores);
+        editCategory(valores);
     }
 });
 
@@ -103,5 +98,14 @@ export default function NewCategory() {
 
       </Layout>
     )
+  }
+  
+  export async function getServerSideProps({params}) {
+    const res = await clientAxios.get(`/api/categories/${params.id}`)
+    return {
+      props: {
+        category: res.data
+      }, // will be passed to the page component as props
+    }
   }
   

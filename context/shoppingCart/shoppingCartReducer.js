@@ -20,22 +20,20 @@ export default (state, action) => {
             return newState
         case REMOVE_ONE_FROM_CART:
             let itemToDelete = state.shoppingCart.find((item) => item.id === action.payload.id);
-            console.log(itemToDelete);
+            console.log(state.shoppingCart.map((item) => item.id === action.payload.id ? { ...item, quantify: item.quantify-1 } : item));
 
             newState = itemToDelete.quantify > 1
             ? {
                 ...state,
-                shoppingCart: state.shoppingCart.map((item) =>
-                item.id === action.payload.id
-                    ? { ...item, quantify: item.quantify - 1 }
-                    : item
-                ),
+                shoppingCart: state.shoppingCart.map((item) => item.id === action.payload.id ? { ...item, quantify: item.quantify-1 } : item
+                )
             }
             : {
                 ...state,
                 shoppingCart: state.shoppingCart.filter((item) => item.id !== action.payload.id),
                 };
-            localStorage.setItem('carrito', JSON.stringify(newState.shoppingCart)); // Guardar el nuevo estado en el localStorage
+                localStorage.setItem('carrito', JSON.stringify(newState.shoppingCart)); 
+                return newState
             case REMOVE_ALL_FROM_CART:
                 return {
                     ...state,
@@ -50,7 +48,7 @@ export default (state, action) => {
             case TOTAL_PRICE:
                 return {
                     ...state,
-                    total: state.shoppingCart.reduce((sum, product) => sum + product.price*product.quantify, 0)
+                    total: state.shoppingCart.reduce((sum, product) => sum + ((product.price-product.descuento)*product.quantify), 0)
                 }
 
         default:

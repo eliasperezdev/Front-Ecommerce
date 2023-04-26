@@ -56,15 +56,14 @@ export default function ProductTable({product}) {
             {product.name}
         </td>
         <td className="px-6 py-4">
-            {product.stock}
+            <span class={`${product.stock > 2 ? "bg-green-100 text-green-800" :" bg-red-200 text-red-800"} text-sm font-medium mr-2 px-2.5 py-0.5 rounded`}>{product.stock}</span>
         </td>
         <td className="px-6 py-4 font-semibold text-gray-900">
             ${product.price}
         </td>
         <td className="px-6 py-4">
                 <Link 
-                    href={`/admin/product/[id]`}
-                    as={`/admin/product/${product.id}`}
+                    href={`/admin/product/${product.id}`}
                     onClick={onClickProduct}
                     className="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
                 >

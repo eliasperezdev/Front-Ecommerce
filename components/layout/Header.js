@@ -192,7 +192,7 @@ export default function Prueba() {
                     onClick={handleDropdownToggle}
                 >
                     <p className="text-xl">
-                        Categorias
+                        Categorías
                     </p>
                 </button>
               </li>
@@ -246,7 +246,7 @@ export default function Prueba() {
                     </Link>
                     <Link
                         legacyBehavior
-                        href="/shop"
+                        href={{ pathname: '/shop', query: { category: undefined } }}
                     >
                         <a className="text-gray-200 hover:text-white transition">Tienda</a>
                     </Link>
@@ -273,6 +273,7 @@ export default function Prueba() {
                     <button className="text-gray-200 hover:text-white transition" onClick={onLogout} >
                         Cerrar sesión
                     </button>  : 
+                    <div className="flex">
                     <Link href={"/login"} legacyBehavior>
                         <a className="text-gray-200 hover:text-white transition">
                             <div className="text-2xl">
@@ -280,7 +281,15 @@ export default function Prueba() {
                             </div>
                             <div className="text-xs leading-3">Iniciar sesión</div>
                         </a>
-                    </Link> }
+                    </Link>
+                    <Link href={"/register"} legacyBehavior>
+                    <a className="text-gray-200 hover:text-white transition mx-2">
+                        <div className="text-2xl">
+                            <i className="fa-regular fa-user"></i>
+                        </div>
+                        <div className="text-xs leading-3">Registrarse</div>
+                    </a>
+                </Link></div> }
             </div>
         </div>
     </nav>

@@ -22,30 +22,26 @@ export default function Home() {
   useEffect(() => {
     getEditorials()
   }, [])
-
-  useEffect(() => {
-    if(query) {
-      setCategory(query.category)
-    }
-      getProducts(editorialCheck,categoryCheck,order,min,max)
-
-      console.log(categoryCheck);
-  }, [query])
   
-  useEffect(() => {
+  useEffect(() => {      
+    if(query && Object.keys(router.query).length > 0) {
+    setCategory(query.category)
+  }
+    
     getProducts(editorialCheck,categoryCheck,order,min,max)
+    
+  }, [editorialCheck, categoryCheck, order,router.query])
+  
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    setCategory(value === categoryCheck ? undefined : value);
+  }
+  
+  const handleEditorialChange = (e) => {
+    const value = e.target.value;
+    setEditorial(value === editorialCheck ? null : value);
+  }
 
-    }, [editorialCheck, categoryCheck, order])
-
-    const handleCategoryChange = (e) => {
-      const value = e.target.value;
-      setCategory(value === categoryCheck ? undefined : value);
-    }
-
-    const handleEditorialChange = (e) => {
-      const value = e.target.value;
-      setEditorial(value === editorialCheck ? null : value);
-    }
 
     const filterClick = () => {
       getProducts(editorialCheck,categoryCheck,order,min,max)
@@ -61,7 +57,7 @@ export default function Home() {
         <div className="col-span-1 bg-white px-4 pb-6 shadow rounded overflow-hidden">
             <div className="divide-y divide-gray-200 space-y-5">
                 <div>
-                    <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Categorias</h3>
+                    <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Categorías</h3>
                     <div className="space-y-2">
                         {categories?.map(category=> (
                             <div key={category.id} className="flex items-center">

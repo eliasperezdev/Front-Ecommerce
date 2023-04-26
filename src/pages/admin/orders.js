@@ -1,3 +1,4 @@
+import OrderBadge from "componentsAdmin/Orders/BadgeOrders";
 import Layout from "componentsAdmin/layout/Layout";
 import clientContext from "context/clients/clientContext";
 import Link from "next/link";
@@ -77,7 +78,7 @@ export default function Dashboard() {
                                 {order.id}
                             </td>
                             <td className="px-6 py-4">
-                                {order.status === "No pagado" ? <span class="bg-green-100 text-gray-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">No pagado</span>: order.status === "Aprobado" ? <span class="bg-red-green text-green-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">En proceso</span> : order.status === "Empaquetado" ? <span class="bg-yellow-100 text-yellow-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">Empaquetado</span> : <span class="bg-indigo-100 text-indigo-800 text-xl font-medium mr-2 px-2.5 py-0.5 rounded ">Entregado</span>}
+                                <OrderBadge status={order.status} />
                             </td>
                             <td className="px-6 py-4">
                                 <Link href={`/admin/orders/${order.id}`} className="font-medium text-blue-600  hover:underline">Ver</Link>

@@ -31,7 +31,7 @@ export default function Dashboard() {
         descuento: 0,
         recommend: "",
         CategoryId: "",
-        EditorialId: "",
+        EditorialId: null,
         isbn: "",
     },
     validationSchema: Yup.object({
@@ -119,7 +119,7 @@ export default function Dashboard() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   {...formik.getFieldProps('EditorialId')}
                 >
-                    <option >Seleccione</option>
+                    <option value={null}>Seleccione</option>
                     {editorials.map(editorial => (
                       <option key={editorial.id} value={editorial.id}>{editorial.name}</option>
                     ))}

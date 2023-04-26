@@ -1,30 +1,95 @@
 import Layout from 'components/layout/Layout'
-import React from 'react'
+import clientAxios from 'config/axios';
+import React, { useState } from 'react'
+import { toast } from 'react-hot-toast';
 
 export default function Contact() {
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    content: '',
+    title: ''
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await clientAxios.post('/api/contact', formData)
+      toast.success('Se ha enviado correctamente');
+      setFormData({
+        name: '',
+        email: '',
+        content: '',
+        title: ''
+      })
+    } catch (error) {
+      toast.error(error.response.data);
+    }
+  };
   return (
     <Layout>
-      <section class="bg-white">
-        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contactanos</h2>
-            <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">Got a technical issue? Want to send feedback about a beta feature? Need details about our Business plan? Let us know.</p>
-            <form action="#" class="space-y-8">
-                <div>
-                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Tu email</label>
-                    <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" placeholder="Escribe tu email"/>
-                </div>
-                <div>
-                    <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 ">Motivo</label>
-                    <input type="text" id="subject" class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500" placeholder="Escribe el motivo del contacto" />
-                </div>
-                <div class="sm:col-span-2">
-                    <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Tu mensaje</label>
-                    <textarea id="message" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-5000" placeholder="Escribe tu consulta..."></textarea>
-                </div>
-                <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-blue-700 sm:w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Enviar consulta</button>
-            </form>
-        </div>
-      </section>
+ <form className="flex flex-col gap-4 container my-5" onSubmit={handleSubmit}>
+ <h2 className="text-2xl uppercase font-medium mb-1">Contacto</h2>
+      <label className="block">
+        <span className="text-gray-700">Nombre</span>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+          required
+        />
+      </label>
+      <label className="block">
+        <span className="text-gray-700">Email</span>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+          required
+        />
+      </label>
+      <label className="block">
+        <span className="text-gray-700">Asunto</span>
+        <input
+          type="title"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+          required
+        />
+      </label>
+      <label className="block">
+        <span className="text-gray-700">Mensaje</span>
+        <textarea
+          name="content"
+          value={formData.content}
+          onChange={handleChange}
+          className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+          rows="4"
+          required
+        ></textarea>
+      </label>
+      <button
+        type="submit"
+        className="py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Enviar
+      </button>
+    </form>
     </Layout>
   )
 }

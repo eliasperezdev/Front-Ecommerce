@@ -39,20 +39,11 @@ const shoppingCartState = ({children}) => {
             
         }
 
-        const delFromCart =async (product, all= false) => {
-            if(all) {
-                dispatch({
-                    type: REMOVE_ALL_FROM_CART,
-                    payload: product
-                })
-            } else {
-                console.log("remove");
+        const delFromCart =async (product) => {
                 dispatch({
                     type: REMOVE_ONE_FROM_CART,
                     payload: product
-                })
-            }
-        }
+        })}
 
         const setCart = () => {
             dispatch({
@@ -69,9 +60,10 @@ const shoppingCartState = ({children}) => {
         const upOrder =async order => {
             try {
                 const respuesta = await clientAxios.post('/api/orders', order)
+                localStorage.removeItem('carrito')
                 window.location.href = respuesta.data.link
             } catch (error) {
-                console.log(error.response);
+                toast.error(error.response.data);
             }
         }
 

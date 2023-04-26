@@ -32,6 +32,10 @@ export default function Order({order}) {
 
     };
 
+  const ticket = async () => {
+    const res = await clientAxios.get(`api/ticket/${order.id}`)
+  }
+
   
 
     console.log(order);
@@ -52,7 +56,7 @@ export default function Order({order}) {
                 <option value={"Cancelado"}>Cancelado</option>
               </select>
             </div>
-            <button type="button" className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Emitir factura</button>
+            <button type="button" onClick={ticket} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Emitir factura</button>
           </div>
 
         </div>
@@ -74,6 +78,7 @@ export default function Order({order}) {
                 <p class="text-gray-700 font-semibold mb-2 text-xl">Total: <span class="text-gray-600">{order.totalSale}</span></p>
                 <p class="text-gray-700 font-semibold mb-2 text-xl">Descuentos: <span class="text-gray-600">{order.tax}</span></p>
                 <p class="text-gray-700 font-semibold mb-2 text-xl">Estado: <span class="text-gray-600">{order.status}</span></p>
+                {order.status ==="No pagado" ? null : <p class="text-gray-700 font-semibold mb-2 text-xl">Id de mercadopago: <span class="text-gray-600">{order.preferenceId}</span></p>}
               </div>
             </div>
             <div>
@@ -85,6 +90,7 @@ export default function Order({order}) {
                     <p class="text-gray-700 font-semibold mb-2 text-xl">Codigo postal: <span class="text-gray-600">{order.Address.postalCode}</span></p>
                     <p class="text-gray-700 font-semibold mb-2 text-xl">Ciudad: <span class="text-gray-600">{order.Address.location}</span></p>
                     <p class="text-gray-700 font-semibold mb-2 text-xl">Provincia: <span class="text-gray-600">{order.Address.province}</span></p>
+                    <p class="text-gray-700 font-semibold mb-2 text-xl">Datos adicionales: <span class="text-gray-600">{order.additionalData}</span></p>
                   </div>
                 </div>
             </div>

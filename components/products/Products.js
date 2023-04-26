@@ -8,7 +8,7 @@ export default function Products({products}) {
     const [currentPage, setCurrentPage] = useState(0);
 
     // Cantidad de productos por página
-    const productsPerPage = 10;
+    const productsPerPage = 12;
   
     // Calcular el índice de inicio y fin de los productos para la página actual
     const startIndex = currentPage * productsPerPage;

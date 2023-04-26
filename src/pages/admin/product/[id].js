@@ -12,12 +12,13 @@ export default function Dashboard() {
   const { id } = router.query
 
   const ProductContext = useContext(productContext)
-  const {upProduct, getCategories, product, getEditorials, categories, editorials, editProduct} = ProductContext
+  const {upProduct, getCategories,getProduct, product, getEditorials, categories, editorials, editProduct} = ProductContext
 
   useEffect(() => {
+    getProduct(id)
     getCategories()
     getEditorials()
-  }, [])
+  }, [id])
 
 
   const formik = useFormik({

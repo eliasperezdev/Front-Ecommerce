@@ -20,7 +20,8 @@ import {
     SET_PRODUCTS,
     SET_CURRENT_PAGE,
     SET_TOTAL_PAGES,
-    GET_PRODUCTS_ADMIN
+    GET_PRODUCTS_ADMIN,
+    EDIT_CATEGORY
 } from '../../types';
 import clientAxios from "../../config/axios";
 import Swal from "sweetalert2";
@@ -60,7 +61,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
                 
             }
@@ -76,7 +77,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
                 
             }
@@ -92,7 +93,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
                 
             }
@@ -108,7 +109,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
                 
             }
@@ -125,7 +126,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
                 
             }
@@ -141,7 +142,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
                 
             }
@@ -166,7 +167,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
             }
         }
@@ -221,7 +222,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
                 
             }
@@ -247,12 +248,16 @@ const productState = ({children}) => {
                     type: UP_PRODUCT,
                     payload: respuesta.data
                 })
-                //router.push('/admin/products')
+                router.push('/admin/products')
+                Swal.fire({
+                    icon: 'success',
+                    title: "El producto fue cargado correctamente",
+                  })
             } catch (error) {
                 console.log(error);
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
             }
         }
@@ -282,7 +287,7 @@ const productState = ({children}) => {
                 console.log(error);
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
             }
         }
@@ -303,14 +308,50 @@ const productState = ({children}) => {
                     type: EDIT_PRODUCT,
                     payload: respuesta.data
                 })
+                Swal.fire({
+                    icon: 'success',
+                    title: "Fue editado con éxito",
+                  })
+                  router.push('/admin/products')
             } catch (error) {
                 console.log(error);
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
             }
         }
+
+        const editCategory =async category => {
+            console.log(category);
+            const token = localStorage.getItem('token')
+            if(!token) return
+            const config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            try {
+                const respuesta = await clientAxios.put(`/api/categories/${category.id}`, category, config)
+                dispatch({
+                    type: EDIT_CATEGORY,
+                    payload: respuesta.data
+                })
+                Swal.fire({
+                    icon: 'success',
+                    title: "Fue editado con éxito",
+                  })
+                router.push('/admin/category')
+            } catch (error) {
+                console.log(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: error.response.data,
+                  })
+            }
+        }
+
 
         const deleteEditorial =async id => {
             const token = localStorage.getItem('token')
@@ -331,7 +372,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
             }
         }
@@ -355,7 +396,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
             }
         }
@@ -379,7 +420,7 @@ const productState = ({children}) => {
             } catch (error) {
                 Swal.fire({
                     icon: 'error',
-                    title: error.response,
+                    title: error.response.data,
                   })
             }
         }
@@ -414,7 +455,8 @@ const productState = ({children}) => {
                 deleteProduct,
                 getRecommends,
                 getSearch,
-                getProductsAdmin
+                getProductsAdmin,
+                editCategory
             }}
         >
             {children}

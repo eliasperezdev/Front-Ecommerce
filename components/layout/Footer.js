@@ -1,24 +1,12 @@
+import Image from "next/image";
+
 export default function Footer() {
     return (
     <footer className="bg-gradient-to-b from-red-600 to-red-900 pt-16 pb-12 border-t border-gray-100">
         <div className="container grid grid-cols-3">
-            <div className="col-span-1 space-y-8">
-                <h1 className="text-2xl">I Sekai</h1>
-                <div className="mr-2">
-                    <p className="text-gray-500">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, hic?
-                    </p>
-                </div>
-                <div className="flex space-x-6">
-                    <a href="#" className="text-gray-400 hover:text-gray-500"><i
-                            className="fa-brands fa-facebook-square"></i></a>
-                    <a href="#" className="text-gray-400 hover:text-gray-500"><i
-                            className="fa-brands fa-instagram-square"></i></a>
-                    <a href="#" className="text-gray-400 hover:text-gray-500"><i
-                            className="fa-brands fa-twitter-square"></i></a>
-                    <a href="#" className="text-gray-400 hover:text-gray-500">
-                        <i className="fa-brands fa-github-square"></i>
-                    </a>
+            <div className="col-span-1">
+                <div className="">
+                    <Image src="/logo.png" width={150} height={150} alt="I sekai"/>
                 </div>
             </div>
 
@@ -42,8 +30,8 @@ export default function Footer() {
                     <div>
                         <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Contactanos</h3>
                         <div className="mt-4 space-y-4">
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">email</a>
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">redes sociales</a>
+                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">isekai@gmail.com</a>
+                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">Isekai</a>
                         </div>
                     </div>
                 </div>
