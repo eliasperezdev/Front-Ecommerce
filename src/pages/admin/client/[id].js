@@ -34,12 +34,12 @@ export default function Client({client,order}) {
           <p className="text-lg text-gray-800">{client.email}</p>
         </div>
         <div className="w-full md:w-1/2">
-          <p className="text-sm font-medium text-gray-600 mb-2">Telefono:</p>
+          <p className="text-sm font-medium text-gray-600 mb-2">Teléfono:</p>
           <p className="text-lg text-gray-800">{client.phone}</p>
         </div>
         <div className="w-full md:w-1/2">
           <p className="text-sm font-medium text-gray-600 mb-2">Teléfono:</p>
-          <p className="text-lg text-gray-800">telefono</p>
+          <p className="text-lg text-gray-800">teléfono</p>
         </div>
       </div>
     </div>

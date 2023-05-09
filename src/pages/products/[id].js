@@ -37,9 +37,9 @@ export default function Product({product}) {
                     <div className="space-y-2">
                         <p className="text-gray-800 font-semibold space-x-2">
                             <span>Disponibilidad: </span>
-                            {product.stock? 
-                            <span className="text-green-600">{product.stock}</span> :
-                            <span className="text-red-600">Sin stock</span>}
+                            {product.stock < 2? 
+                            <span className="text-red-600">{product.stock}</span> :
+                            <span className="text-green-600">{product.stock}</span>}
                         </p>
                         <p className="space-x-2">
                             <span className="text-gray-800 font-semibold">Editorial: </span>

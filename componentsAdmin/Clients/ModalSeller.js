@@ -9,7 +9,7 @@ const Modal = ({modal, setModal}) => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const ClientContext = useContext(clientContext)
-  const {updateRole} = ClientContext
+  const {updateRole,getUsers} = ClientContext
 
 
   const handleSearchInputChange = (e) => {
@@ -18,30 +18,26 @@ const Modal = ({modal, setModal}) => {
 
   const handleSearchSubmit =async () => {
     try {
-        const res = await clientAxios.get(`/api/users/dni/${searchQuery}`)
+        const res = await clientAxios.get(`/api/users/email/${searchQuery}`)
         console.log(res.data);
         setUser(res.data)
         setSelectedValue(res.data.RoleId)
         console.log(selectedValue);
       } catch (error) {
-
        console.log(error);
       }
   };
 
   const handleModalClose = () => {
     setModal(!modal)
+    getUsers()
   }
 
   const handleSelectChange =async event => {
-          
     setSelectedValue(event.target.value);
-
     const userModified = user
     userModified.RoleId = Number(event.target.value)
-
     updateRole(userModified)
-
   };
 
   return (
@@ -56,7 +52,7 @@ const Modal = ({modal, setModal}) => {
         </div>
         {/* Contenido del modal */}
         <div className="bg-white z-50 rounded-lg p-8 w-full max-w-md mx-auto">
-          <h2 className="text-2xl font-semibold mb-4">Buscar por DNI</h2>
+          <h2 className="text-2xl font-semibold mb-4">Buscar por email</h2>
           <input
             type="text"
             className="w-full border border-gray-300 px-4 py-2 mb-4 rounded-md"

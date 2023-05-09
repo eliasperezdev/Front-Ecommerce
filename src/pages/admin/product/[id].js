@@ -5,20 +5,29 @@ import * as Yup from 'yup';
 import { useContext, useEffect } from "react";
 import productContext from "../../../../context/product/productContext";
 import { useRouter } from "next/router";
+import clientAxios from "config/axios";
 
-export default function Dashboard() {
+export async function getServerSideProps ({params}) {
+  const res = await clientAxios.get(`/api/products/${params.id}`)
+
+  return {
+    props: {
+      product: res.data
+    }
+  }
+}
+
+export default function Dashboard({product}) {
 
   const router = useRouter()
-  const { id } = router.query
 
   const ProductContext = useContext(productContext)
-  const {upProduct, getCategories,getProduct, product, getEditorials, categories, editorials, editProduct} = ProductContext
+  const {upProduct, getCategories,getProduct, getEditorials, categories, editorials, editProduct} = ProductContext
 
   useEffect(() => {
-    getProduct(id)
     getCategories()
     getEditorials()
-  }, [id])
+  }, [])
 
 
   const formik = useFormik({
@@ -119,7 +128,7 @@ export default function Dashboard() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   {...formik.getFieldProps('EditorialId')}
                 >
-                    <option >Seleccione</option>
+                    <option value={null}>Seleccione</option>
                     {editorials.map(editorial => (
                       <option key={editorial.id} value={editorial.id}>{editorial.name}</option>
                     ))}

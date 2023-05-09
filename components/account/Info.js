@@ -16,7 +16,7 @@ export default function Info() {
             <div className="container mt-10">
                 <h1 className="mb-10 text-center text-2xl font-bold">Mis ordenes</h1>
                 <div className="grid grid-cols-2  md:grid-cols-3  gap-4" >
-                {orders.length === 0 ? "no hay ordees" : orders.map(order=>(
+                {orders.length === 0 ? "No hay ordenes" : orders.map(order=>(
                     <div key={order.id} className="order-4 border-red-200 border-t-red-500">
                         <div class="flex justify-center">
                             <div

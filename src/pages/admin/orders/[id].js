@@ -1,6 +1,7 @@
 import Layout from "componentsAdmin/layout/Layout";
 import clientContext from 'context/clients/clientContext';
 import { useContext, useEffect, useState } from 'react';
+import { saveAs } from 'file-saver';
 
 export async function getServerSideProps({params}) {
   const res = await clientAxios.get(`/api/orders/order/${params.id}`)
@@ -13,7 +14,9 @@ export async function getServerSideProps({params}) {
 
 import Image from 'next/image';
 import clientAxios from 'config/axios';
+import Swal from "sweetalert2";
 export default function Order({order}) {
+  console.log(order);
 
     const ClientContext = useContext(clientContext)
     const {  updateStatus } = ClientContext
@@ -33,7 +36,22 @@ export default function Order({order}) {
     };
 
   const ticket = async () => {
-    const res = await clientAxios.get(`api/ticket/${order.id}`)
+    try {
+      
+      const response = await clientAxios.get(`api/ticket/${order.id}`)
+      Swal.fire(
+        'Factura enviada',
+        'Se ha enviado correctamente!',
+        'success'
+      )
+    } catch (error) {
+
+      Swal.fire(
+        'Error servidor',
+        error.response.data,
+        'danger'
+      )
+    }
   }
 
   
@@ -56,7 +74,9 @@ export default function Order({order}) {
                 <option value={"Cancelado"}>Cancelado</option>
               </select>
             </div>
-            <button type="button" onClick={ticket} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Emitir factura</button>
+            {order.TicketId? <div className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Ya se ha enviado la factura</div>:
+            <button type="button" onClick={ticket} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Emitir factura</button>}
+            
           </div>
 
         </div>
@@ -66,7 +86,7 @@ export default function Order({order}) {
                   <p className="text-2xl my-5 "><span className="font-semibold text-gray-900">Datos del cliente</span></p>
                   <div class="max-w-md mx-auto bg-white rounded-lg shadow-md px-6 py-4">
                     <p class="text-gray-700 font-semibold mb-2 text-xl">Nombre: <span class="text-gray-600">{order.User.lastName} {order.User.name}</span></p>
-                    <p class="text-gray-700 font-semibold mb-2 text-xl">Telefono: <span class="text-gray-600">{order.User.phone}</span></p>
+                    <p class="text-gray-700 font-semibold mb-2 text-xl">Teléfono: <span class="text-gray-600">{order.User.phone}</span></p>
                     <p class="text-gray-700 font-semibold mb-2 text-xl">Email postal: <span class="text-gray-600">{order.User.email}</span></p>
                     <p class="text-gray-700 font-semibold mb-2 text-xl">DNI: <span class="text-gray-600">{order.User.dni}</span></p>
                   </div>

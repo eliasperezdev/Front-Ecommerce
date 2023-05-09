@@ -24,7 +24,7 @@ export default function Sidebar() {
                     </div>
                     <h4 className="text-gray-700 font-medium">{usuario?.name + " " + usuario?.lastName}</h4>
                     <p className="text-gray-800">Email: {usuario?.email}</p>
-                    <p className="text-gray-800">Telefono: {usuario?.phone}</p>
+                    <p className="text-gray-800">Teléfono: {usuario?.phone}</p>
                     <p className="text-gray-800">DNI: {usuario?.dni}</p>
                     
                     <Link href="/account/address" className="relative text-primary block font-medium capitalize transition">

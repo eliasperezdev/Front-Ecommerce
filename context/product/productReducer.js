@@ -18,7 +18,8 @@ import {
     SET_CURRENT_PAGE,
     SET_TOTAL_PAGES,
     GET_PRODUCTS_ADMIN,
-    EDIT_CATEGORY
+    EDIT_CATEGORY,
+    GET_CATEGORIES_SHOP
 } from '../../types';
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -47,7 +48,12 @@ export default (state, action) => {
             return {
                 ...state,
                 categories: action.payload
-            }           
+            }
+        case GET_CATEGORIES_SHOP:
+            return {
+                ...state,
+                categoriesShop: action.payload
+            }              
         case GET_EDITORIALS:
             return {
                 ...state,

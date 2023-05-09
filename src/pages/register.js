@@ -31,11 +31,13 @@ export default function Home() {
                         .matches(/[A-Z]/, 'La contraseña debe tener al menos una letra mayúscula')
                         .required('La contraseña es requerida'),
             name: Yup.string()
+                    .matches(/^[a-zA-Z]+$/, 'El nombre solo puede contener letras')
                     .required('El nombre es requerido'),
             lastName: Yup.string()
+                    .matches(/^[a-zA-Z]+$/, 'El apellido solo puede contener letras')
                     .required('El apellido es requerido'),
             phone: Yup.string()
-                    .required('El telefono es requerido'),
+                    .required('El teléfono es requerido'),
             dni: Yup.string()
                     .required('El DNI es requerido')
                     .max(8, 'El DNI no puede tener más de 8 caracteres')
@@ -81,10 +83,10 @@ export default function Home() {
                             ) : null }
                     </div>
                     <div>
-                        <label for="phone" className="text-gray-600 mb-2 block">Telefono</label>
+                        <label for="phone" className="text-gray-600 mb-2 block">Teléfono</label>
                         <input type="text" name="phone" id="phone"
                             className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
-                            placeholder="Tu telefono"
+                            placeholder="Tu teléfono"
                             value={formik.values.phone}
                             onChange={formik.handleChange}
                             />

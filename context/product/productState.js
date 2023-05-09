@@ -4,6 +4,7 @@ import productReducer from "./productReducer";
 
 import { 
     GET_CATEGORIES,
+    GET_CATEGORIES_SHOP,
     GET_EDITORIALS,
     GET_PRODUCTS,
     UP_PRODUCT,
@@ -38,6 +39,7 @@ const productState = ({children}) => {
         
         //Category
         categories: [],
+        categoriesShop: [],
         category:{},
         editorials: [],
         editorial: {},
@@ -128,6 +130,21 @@ const productState = ({children}) => {
                     icon: 'error',
                     title: error.response.data,
                   })
+                
+            }
+        }
+
+        const getCategoriesShop = async () => {
+            try {
+                const respuesta = await clientAxios.get('/api/categories/categories/category')
+                console.log(respuesta);
+                dispatch({
+                    type: GET_CATEGORIES,
+                    payload: respuesta.data.categories
+                })
+            } catch (error) {
+
+                console.log(error);
                 
             }
         }
@@ -456,7 +473,8 @@ const productState = ({children}) => {
                 getRecommends,
                 getSearch,
                 getProductsAdmin,
-                editCategory
+                editCategory,
+                getCategoriesShop
             }}
         >
             {children}

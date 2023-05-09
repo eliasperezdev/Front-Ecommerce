@@ -30,8 +30,8 @@ export default function Footer() {
                     <div>
                         <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Contactanos</h3>
                         <div className="mt-4 space-y-4">
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">isekai@gmail.com</a>
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">Isekai</a>
+                            <p href="#" className="text-base text-gray-500 hover:text-gray-900 block">isekai@gmail.com</p>
+                            <p href="#" className="text-base text-gray-500 hover:text-gray-900 block">Isekai</p>
                         </div>
                     </div>
                 </div>
