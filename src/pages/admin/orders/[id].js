@@ -1,6 +1,7 @@
 import Layout from "componentsAdmin/layout/Layout";
 import clientContext from 'context/clients/clientContext';
 import { useContext, useEffect, useState } from 'react';
+import { saveAs } from 'file-saver';
 
 export async function getServerSideProps({params}) {
   const res = await clientAxios.get(`/api/orders/order/${params.id}`)
@@ -33,7 +34,15 @@ export default function Order({order}) {
     };
 
   const ticket = async () => {
-    const res = await clientAxios.get(`api/ticket/${order.id}`)
+    try {
+      
+      const response = await clientAxios.get(`api/ticket/${order.id}`)
+      console.log(response.data);
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      saveAs(blob, 'factura.pdf');
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   
@@ -57,6 +66,7 @@ export default function Order({order}) {
               </select>
             </div>
             <button type="button" onClick={ticket} className="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Emitir factura</button>
+            
           </div>
 
         </div>

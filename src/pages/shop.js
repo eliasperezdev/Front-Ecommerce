@@ -1,36 +1,63 @@
 import Layout from "components/layout/Layout";
 import Products from "components/products/Products";
 import Sidebar from "components/products/Sidebar";
+import clientAxios from "config/axios";
 import productContext from "context/product/productContext";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
-export default function Home() {
+export async function getServerSideProps(context) {
+  const { category } = context.query;
+
+  // Utiliza el valor de `category` para filtrar los datos
+
+  return {
+    props: {
+      // Pasa los datos filtrados como propiedades a la página
+      idCategory: category
+    }
+  }
+}
+
+export default function Home({idCategory}) {
+  console.log("id category", idCategory);
 
   const ProductContext = useContext(productContext)
-  const { products, getProducts, categories, editorials, getEditorials} = ProductContext
+  const { categories, editorials, getEditorials} = ProductContext
 
   const router = useRouter();
   const { query } = router;
 
+  const [products, setProducts] = useState([])
   const [editorialCheck, setEditorial] = useState(null)
-  const [categoryCheck, setCategory] = useState(undefined )
+  const [categoryCheck, setCategory] = useState(idCategory||undefined)
   const [order, setOrder] = useState("desc")
   const [min, setMin] = useState(0)
   const [max, setMax] = useState(1000000)
 
   useEffect(() => {
     getEditorials()
+    if(query && Object.keys(router.query).length > 0) {
+      console.log(query.category);
+      setCategory(query.category)
+    }
   }, [])
   
   useEffect(() => {      
-    if(query && Object.keys(router.query).length > 0) {
-    setCategory(query.category)
-  }
-    
-    getProducts(editorialCheck,categoryCheck,order,min,max)
-    
-  }, [editorialCheck, categoryCheck, order,router.query])
+    const getProducts =async ( ) => {
+      console.log("category: ", categoryCheck);
+      try {
+        const respuesta = await clientAxios.get(`/api/products/${editorialCheck}/${categoryCheck}/${order}/${min}/${max}`)
+        console.log(respuesta.data.response.products);
+        setProducts(respuesta.data.response.products)
+      } catch (error) {
+        setProducts([])
+        //toast.error('No hay productos');
+      }
+    }
+    getProducts()
+  }, [editorialCheck, categoryCheck, order, setCategory])
   
   const handleCategoryChange = (e) => {
     const value = e.target.value;
@@ -44,7 +71,16 @@ export default function Home() {
 
 
     const filterClick = () => {
-      getProducts(editorialCheck,categoryCheck,order,min,max)
+      const getProducts =async ( ) => {
+        try {
+          const respuesta = await clientAxios.get(`/api/products/${editorialCheck}/${categoryCheck}/${order}/${min}/${max}`)
+          console.log(respuesta.data.response.products);
+          setProducts(respuesta.data.response.products)
+        } catch (error) {
+          toast.error('No hay productos');
+        }
+      }
+      getProducts()
     }
 
 
@@ -128,7 +164,7 @@ export default function Home() {
                 </div>
             </div>
         </div>
-        <Products products={products}/> 
+          {products.length === 0 ? "No hay productos" : <Products products={products}/> }
         </div>
 
       </Layout>

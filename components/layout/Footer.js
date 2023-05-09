@@ -1,4 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
+import { BsInstagram } from "react-icons/bs";
+import { HiOutlineMail } from "react-icons/hi";
+import {SiReacthookform} from "react-icons/si"
 
 export default function Footer() {
     return (
@@ -13,25 +17,28 @@ export default function Footer() {
             <div className="col-span-2 gap-8">
                 <div className="grid grid-cols-3 gap-8">
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Navegación</h3>
+                        <h3 className="text-xl font-semibold text-white uppercase tracking-wider">Navegación</h3>
                         <div className="mt-4 space-y-4">
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">Inicio</a>
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">Tienda</a>
+                            <a href="#" className="text-md font-base text-white hover:text-gray-900 block">Inicio</a>
+                            <a href="#" className="text-md font-base text-white hover:text-gray-900 block">Tienda</a>
                         </div>
                     </div>
 
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Sobre nosotros</h3>
+                        <h3 className="text-xl font-semibold text-white uppercase tracking-wider">Sobre nosotros</h3>
                         <div className="mt-4 space-y-4">
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">¿Quienes somos?</a>
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">¿Como comprar?</a>
+                            <a href="#" className="text-md font-base text-white hover:text-gray-900 block">¿Quienes somos?</a>
+                            <a href="#" className="text-md font-base text-white hover:text-gray-900 block">¿Como comprar?</a>
                         </div>
                     </div>
                     <div>
-                        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Contactanos</h3>
+                        <h3 className="text-xl font-semibold text-white uppercase tracking-wider">Contactanos</h3>
                         <div className="mt-4 space-y-4">
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">isekai@gmail.com</a>
-                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">Isekai</a>
+                            <p className="text-md font-base text-white hover:text-gray-900 block flex gap-2"><HiOutlineMail />isekai@gmail.com</p>
+                            <a href="https://www.instagram.com/i.sekai.shop/" rel="noopener noreferrer" className="text-md font-base text-white hover:text-gray-900 block flex gap-2"><BsInstagram />Isekai</a>
+                            <Link className="text-md font-base text-white hover:text-gray-900 block flex gap-2" href={"/contact"}>
+                                <SiReacthookform/>Contacto
+                            </Link>
                         </div>
                     </div>
                 </div>

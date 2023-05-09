@@ -5,20 +5,28 @@ import * as Yup from 'yup';
 import { useContext, useEffect } from "react";
 import productContext from "../../../../context/product/productContext";
 import { useRouter } from "next/router";
+import clientAxios from "config/axios";
 
-export default function Dashboard() {
+export async function getServerSideProps ({params}) {
+  const respuesta = await clientAxios.get(`/api/products/${params.id}`)
+  return {
+    props: {
+      product: respuesta.data
+    },
+  }
+}
+
+export default function Dashboard({product}) {
 
   const router = useRouter()
-  const { id } = router.query
 
   const ProductContext = useContext(productContext)
-  const {upProduct, getCategories,getProduct, product, getEditorials, categories, editorials, editProduct} = ProductContext
+  const {upProduct, getCategories,getProduct, getEditorials, categories, editorials, editProduct} = ProductContext
 
   useEffect(() => {
-    getProduct(id)
     getCategories()
     getEditorials()
-  }, [id])
+  }, [])
 
 
   const formik = useFormik({

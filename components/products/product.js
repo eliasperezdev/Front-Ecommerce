@@ -4,6 +4,7 @@ import userContext from "context/user/userContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
+import { BsFillHeartFill, BsInfoSquare } from "react-icons/bs";
 
 export default function Product({product}) {
 
@@ -35,7 +36,7 @@ export default function Product({product}) {
                     <Link key={product.id} href={`/products/${product.id}`}
                         className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
                         title="Ver producto">
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                        <BsInfoSquare />
                     </Link>
                     {autenticado? 
                         <button href="#"
@@ -43,15 +44,15 @@ export default function Product({product}) {
                         title="Agregar a favorito"
                         onClick={onClickFavorite}
                         >
-                        <i className="fa-solid fa-heart"></i>
+                        <BsFillHeartFill />
                     </button>: null
                     }
                 </div>
             </div>
             <div className="pt-4 pb-3 px-4">
-                <a href="#">
+                <Link key={product.id} href={`/products/${product.id}`}>
                     <h4 className="font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">{product.name}</h4>
-                </a>
+                </Link>
                 <div className="flex items-baseline mb-1 space-x-2">
                     <p className={`text-xl text-primary font-semibold ${product.descuento > 0 ? "line-through" : null}`}>${product.price} </p>
                     <p className={`text-md text-gray-500 font-semibold`}>{product.descuento > 0 ? (product.price - product.descuento ): null} </p>

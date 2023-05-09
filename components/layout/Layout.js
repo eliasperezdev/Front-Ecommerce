@@ -8,9 +8,15 @@ export default function Layout({children}) {
       <Head>
         <title>I Sekai Shop</title>
       </Head>
+      <div className="flex flex-col min-h-screen">
         <Header />
+          <div className="flex-grow">
             {children}
+
+          </div>
         <Footer/>
+
+      </div>
       </>
     )
   }

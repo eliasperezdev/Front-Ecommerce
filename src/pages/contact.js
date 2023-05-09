@@ -37,7 +37,7 @@ export default function Contact() {
   };
   return (
     <Layout>
- <form className="flex flex-col gap-4 container my-5" onSubmit={handleSubmit}>
+ <form className="flex flex-col gap-4 container my-5 max-w-lg mx-auto px-6 py-7 overflow-hidden" onSubmit={handleSubmit}>
  <h2 className="text-2xl uppercase font-medium mb-1">Contacto</h2>
       <label className="block">
         <span className="text-gray-700">Nombre</span>
