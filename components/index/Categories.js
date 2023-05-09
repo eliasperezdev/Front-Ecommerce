@@ -22,7 +22,7 @@ export default function Categories() {
                             width={500}
                             height={300}
                         />
-                    <Link  href={{ pathname: '/shop', query: { category: category.id } }} className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
+                    <Link  href={{ pathname: '/shop', query: { category: category.id } }} as={`/shop?category=${category.id}`} className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
                          >{category.name}
                     </Link>
                 </div>

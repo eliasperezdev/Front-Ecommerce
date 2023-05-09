@@ -8,11 +8,14 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 export async function getServerSideProps(context) {
-  const {category} = context.query;
+  const { category } = context.query;
+
+  // Utiliza el valor de `category` para filtrar los datos
 
   return {
     props: {
-      idCategory:category
+      // Pasa los datos filtrados como propiedades a la página
+      idCategory: category
     }
   }
 }
@@ -31,6 +34,10 @@ export default function Home({idCategory}) {
 
   useEffect(() => {
     getEditorials()
+    if(query && Object.keys(router.query).length > 0) {
+      console.log(query.category);
+      setCategory(query.category)
+    }
   }, [])
 
   useEffect(() => {      
