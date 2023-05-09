@@ -8,11 +8,12 @@ import { useRouter } from "next/router";
 import clientAxios from "config/axios";
 
 export async function getServerSideProps ({params}) {
-  const respuesta = await clientAxios.get(`/api/products/${params.id}`)
+  const res = await clientAxios.get(`/api/products/${params.id}`)
+
   return {
     props: {
-      product: respuesta.data
-    },
+      product: res.data
+    }
   }
 }
 
@@ -127,7 +128,7 @@ export default function Dashboard({product}) {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   {...formik.getFieldProps('EditorialId')}
                 >
-                    <option >Seleccione</option>
+                    <option value={null}>Seleccione</option>
                     {editorials.map(editorial => (
                       <option key={editorial.id} value={editorial.id}>{editorial.name}</option>
                     ))}

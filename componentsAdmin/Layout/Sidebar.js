@@ -2,13 +2,15 @@ import authContext from "context/auth/authContext";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useContext } from "react";
-import { MdAddShoppingCart, MdCategory, MdOutlineAutoAwesomeMosaic, MdOutlineDashboard, MdPermIdentity, MdRemoveShoppingCart, MdSpatialAudioOff, MdViewTimeline } from "react-icons/md";
+import { MdAddShoppingCart, MdCategory, MdOutlineAutoAwesomeMosaic, MdOutlineDashboard, MdOutlineTvOff, MdPermIdentity, MdRemoveShoppingCart, MdSpatialAudioOff, MdStore, MdViewTimeline } from "react-icons/md";
 
 const Sidebar = ({isMenuOpen}) => {
 
   const AuthContext = useContext(authContext)
-  const {usuario} = AuthContext
-
+  const {usuario,logout} = AuthContext
+  const onLogout = () => {
+    logout()
+  } 
 
   return (
     <aside
@@ -100,7 +102,7 @@ const Sidebar = ({isMenuOpen}) => {
               <span>Categorías</span>
             </Link>
           </li>
-                    <li>
+          <li>
             <Link
               href="/admin/editorials"
               activeClassName="bg-red-900"
@@ -108,6 +110,28 @@ const Sidebar = ({isMenuOpen}) => {
             >
               <MdViewTimeline />
               <span>Editoriales</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/"
+              activeClassName="bg-red-900"
+              className="flex items-center px-4 py-2 transition-colors font-semibold duration-300 hover:bg-red-900 gap-2"
+            >
+              <MdStore />
+              <span>Volver a la tienda</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/"
+              activeClassName="bg-red-900"
+              className="flex items-center px-4 py-2 "
+            >
+              <button className=" items-center transition-colors font-semibold duration-300 hover:bg-red-900 gap-2 flex" onClick={onLogout} >
+                  <MdOutlineTvOff/>
+                   Cerrar sesión
+              </button> 
             </Link>
           </li>
 

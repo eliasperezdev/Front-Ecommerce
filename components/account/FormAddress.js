@@ -82,7 +82,7 @@ export default function FormAddress() {
                         id="province" 
                         namw="province"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
-                        placeholder="Solo si aplica" 
+                        
                         value={formik.values.province}
                         onChange={formik.handleChange}
                         />
@@ -91,7 +91,7 @@ export default function FormAddress() {
                     ) : null }
                 </div>
                 <div className="relative z-0 w-full mb-6 group">
-                        <label for="price" className="block mb-2 text-xl font-medium text-gray-900">Codido postal</label>
+                        <label for="price" className="block mb-2 text-xl font-medium text-gray-900">Código postal</label>
                         <input 
                             type="number" 
                             id="postalCode" 
@@ -142,6 +142,7 @@ export default function FormAddress() {
                             type="number" 
                             id="department" 
                             name="department" 
+                            placeholder="Solo si aplica" 
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value={formik.values.department}
                             onChange={formik.handleChange}

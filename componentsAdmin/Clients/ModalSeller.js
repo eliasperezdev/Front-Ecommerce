@@ -9,7 +9,7 @@ const Modal = ({modal, setModal}) => {
   const [selectedValue, setSelectedValue] = useState(null);
 
   const ClientContext = useContext(clientContext)
-  const {updateRole} = ClientContext
+  const {updateRole,getUsers} = ClientContext
 
 
   const handleSearchInputChange = (e) => {
@@ -30,6 +30,7 @@ const Modal = ({modal, setModal}) => {
 
   const handleModalClose = () => {
     setModal(!modal)
+    getUsers()
   }
 
   const handleSelectChange =async event => {

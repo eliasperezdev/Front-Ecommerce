@@ -22,7 +22,7 @@ export default function Prueba() {
     const {setCart} = CartContext
 
     useEffect(() => {
-        getCategories()
+        getCategoriesShop()
       }, [])
 
         useEffect(() => {
@@ -34,7 +34,7 @@ export default function Prueba() {
         const { shoppingCart } = ShoppingCartContext
 
         const ProductContext = useContext(productContext)
-        const { getSearch, getCategories, categories } = ProductContext
+        const { getSearch, getCategoriesShop, categories } = ProductContext
 
         const [ textSearch, setTextSearch ] = useState("")
 
@@ -220,16 +220,16 @@ export default function Prueba() {
                 <span className="text-white">
                     <i className="fa-solid fa-bars"></i>
                 </span>
-                <span className="capitalize ml-2 text-white">Categorias</span>
+                <span className="capitalize ml-2 text-white">Categorías</span>
                 <div
-                    className="absolute w-full left-0 top-full bg-red-600 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible">
+                    className="absolute w-full left-0 top-full bg-red-600 shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible z-50">
                     {categories?.map(category =>( 
                         <Link 
                             key={category.id}
                             className="flex  text-white items-center px-6 py-3 hover:bg-gray-100 transition"
                             href={{ pathname: '/shop', query: { category: category.id } }}
                             >
-                            <span className="ml-6 text-gray-600 text-sm">{category.name}</span>
+                            <span className="ml-6 text-white font-semibold text-sm">{category.name}</span>
                         </Link>
                     ))}
                     

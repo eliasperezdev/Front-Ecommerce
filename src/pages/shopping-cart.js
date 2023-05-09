@@ -55,8 +55,8 @@ export default function HowToBuy() {
                         </div>
                         <div className="flex-grow mx-5">
                             <p className="text-gray-700 mb-4">Precio: ${product.price}</p>
-                            <p className="text-gray-700 mb-4">Descuento: {product.descuento}</p>
-                            <p className="text-gray-700 mb-4">Total: {(product.price - product.descuento) * product.quantify }</p>
+                            <p className="text-gray-700 mb-4">Descuento: {product.descuento * product.quantify}</p>
+                            <p className="text-gray-700 font-bold mb-4">Total: ${(product.price - product.descuento) * product.quantify }</p>
                         </div>
                         </div>
                     </div>

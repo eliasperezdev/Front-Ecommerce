@@ -21,13 +21,9 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home({idCategory}) {
-  console.log("id category", idCategory);
 
   const ProductContext = useContext(productContext)
   const { categories, editorials, getEditorials} = ProductContext
-
-  const router = useRouter();
-  const { query } = router;
 
   const [products, setProducts] = useState([])
   const [editorialCheck, setEditorial] = useState(null)
@@ -43,21 +39,21 @@ export default function Home({idCategory}) {
       setCategory(query.category)
     }
   }, [])
-  
+
   useEffect(() => {      
     const getProducts =async ( ) => {
-      console.log("category: ", categoryCheck);
       try {
         const respuesta = await clientAxios.get(`/api/products/${editorialCheck}/${categoryCheck}/${order}/${min}/${max}`)
-        console.log(respuesta.data.response.products);
         setProducts(respuesta.data.response.products)
       } catch (error) {
         setProducts([])
         //toast.error('No hay productos');
       }
     }
+    console.log("getproducts");
+
     getProducts()
-  }, [editorialCheck, categoryCheck, order, setCategory])
+  }, [editorialCheck, categoryCheck, order])
   
   const handleCategoryChange = (e) => {
     const value = e.target.value;

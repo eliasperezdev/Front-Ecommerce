@@ -17,7 +17,7 @@ export default function Purchase() {
     const ShoppingCartContext = useContext(shoppingCartContext)
     const { upOrder, shoppingCart } = ShoppingCartContext
 
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedValue, setSelectedValue] = useState("");
 
     const [additionalData, setText] = useState('');
 
@@ -149,6 +149,21 @@ export default function Purchase() {
         setSelectedValue(event.target.value);
       };
 
+      const deleteAddress = event => {
+        setFormData({
+          idAddress:"",
+          name: '',
+          location: '',
+          province: '',
+          postalCode: '',
+          street: '',
+          altitude: '',
+          department: '',
+          text: "",
+        })
+        setSelectedValue("")
+      };
+
   return (
     <Layout>
       <div className="container">
@@ -201,10 +216,10 @@ export default function Purchase() {
         
             <h1 className="text-center text-2xl font-bold mb-5">Datos de envío</h1>
             {autenticado ? 
-            <div>
+            <div className="flex gap-2">
                 {address.length===0? null: 
                     <select value={selectedValue} onChange={handleSelectChange} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option selected value={""} >Seleccione una dirección guardada</option>
+                    <option selected value={null}>Seleccione una dirección guardada</option>
                     {address.map(addres => (
                         <option 
                             key={addres.id} 
@@ -213,6 +228,7 @@ export default function Purchase() {
                     ))}
                 </select>
                 }
+                {selectedValue? <button onClick={deleteAddress} className="bg-red-600 text-white py-1 px-2">Eliminar dirección</button> : null}
             </div>
             : 
         null
@@ -267,7 +283,7 @@ export default function Purchase() {
 
             </div>
             <div className="relative z-0 w-full mb-6 group">
-                    <label for="price" className="block mb-2 text-xl font-medium text-gray-900">Codido postal</label>
+                    <label for="price" className="block mb-2 text-xl font-medium text-gray-900">Código postal</label>
                     <input 
                         type="number" 
                         id="postalCode" 
@@ -325,7 +341,7 @@ export default function Purchase() {
         </div>
             {autenticado ? null : 
             <div>
-            <h1 className="text-center text-2xl font-bold mb-5">Datos de facturacion</h1>
+            <h1 className="text-center text-2xl font-bold mb-5">Datos de facturación</h1>
               <div className="relative z-0 w-full mb-6 group">
                       <label for="descuento" className="block mb-2 text-xl font-medium text-gray-900">DNI del comprador</label>
                       <input 
@@ -342,7 +358,7 @@ export default function Purchase() {
         }
             <h1 className="text-center text-2xl font-bold mb-5">Datos adicionales</h1>
             <label for="message" className="block mb-2 text-sm font-medium text-gray-900">Información adicional para el envio</label>
-            <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="escriba lo que requiera.." value={additionalData} onChange={handleTextChange}></textarea>
+            <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Escriba lo que requiera.." value={additionalData} onChange={handleTextChange}></textarea>
             <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm py-3 w-full text-center mr-2 my-10">Realizar el pago</button>
         </form>
 
